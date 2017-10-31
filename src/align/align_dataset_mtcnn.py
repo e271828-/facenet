@@ -41,6 +41,8 @@ def main(args):
     output_dir = os.path.expanduser(args.output_dir)
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
+
+    print('Output dir: {}'.format(output_dir))
     # Store some git revision info in a text file in the log directory
     src_path,_ = os.path.split(os.path.realpath(__file__))
     facenet.store_revision_info(src_path, output_dir, ' '.join(sys.argv))
@@ -69,6 +71,8 @@ def main(args):
             random.shuffle(dataset)
         for cls in dataset:
             output_class_dir = os.path.join(output_dir, cls.name)
+            print('output_class_dir dir: {}'.format(output_class_dir))
+
             if not os.path.exists(output_class_dir):
                 os.makedirs(output_class_dir)
                 if args.random_order:
@@ -77,7 +81,7 @@ def main(args):
                 nrof_images_total += 1
                 filename = os.path.splitext(os.path.split(image_path)[1])[0]
                 output_filename = os.path.join(output_class_dir, filename+'.png')
-                print(image_path)
+                print('image_path: {} output_filename: {}'.format(image_path, output_filename))
                 if not os.path.exists(output_filename):
                     try:
                         img = misc.imread(image_path)
@@ -125,6 +129,7 @@ def main(args):
                                 nrof_successfully_aligned += 1
                                 filename_base, file_extension = os.path.splitext(output_filename)
                                 output_filename_n = "{}_{}{}".format(filename_base, i, file_extension)
+                                print('output_filename_n {}'.format(output_filename_n))
                                 misc.imsave(output_filename_n, scaled)
                                 text_file.write('%s %d %d %d %d\n' % (output_filename_n, bb[0], bb[1], bb[2], bb[3]))
                         else:
